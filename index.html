@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Notebook — Waiting by Ha Jin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&amp;family=Crimson+Text:ital,wght@0,400;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #1a0f05;
+      --paper:  #f2ead8;
+      --aged:   #e8dfc8;
+      --crease: #c8b898;
+      --red:    #9b1c0a;
+      --gold:   #b07d2a;
+      --fade:   #7a5c38;
+      --faint:  #a08060;
+    }
+
+    body {
+      background: var(--ink);
+      color: var(--ink);
+      font-family: 'Crimson Text', Georgia, serif;
+      min-height: 100vh;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 80px 10vw;
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 72% 50%, #3a1a0a 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cover-char {
+      position: absolute;
+      right: 7vw;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(140px, 20vw, 260px);
+      color: rgba(176,125,42,0.07);
+      font-family: serif;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .cover-eyebrow {
+      font-family: 'Special Elite', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.72rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+    }
+    .cover-title {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+      color: var(--paper);
+      line-height: 1.1;
+      max-width: 660px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.25s forwards;
+    }
+    .cover-title em { font-style: italic; color: var(--gold); }
+    .cover-sub {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      color: var(--faint);
+      margin-top: 16px;
+      max-width: 500px;
+      line-height: 1.65;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .cover-meta {
+      margin-top: 44px;
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.55s forwards;
+    }
+    .meta-key {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .meta-val {
+      font-family: 'Crimson Text', serif;
+      font-size: 0.92rem;
+      color: var(--paper);
+    }
+    .scroll-cue {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+      text-decoration: none;
+    }
+    .scroll-cue span {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .scroll-arrow {
+      width: 1px; height: 38px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ── NAV ── */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(26,15,5,0.97);
+      border-bottom: 1px solid rgba(176,125,42,0.22);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      padding: 0 6vw;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .sticky-nav::-webkit-scrollbar { display: none; }
+    .nav-logo {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 14px 18px 14px 0;
+      border-right: 1px solid rgba(176,125,42,0.2);
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .nav-link {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-decoration: none;
+      padding: 16px 12px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .nav-link:hover { color: var(--paper); }
+    .nav-link.active { color: var(--paper); border-bottom-color: var(--red); }
+
+    /* ── SECTION ── */
+    .section {
+      background: var(--paper);
+      padding: 72px 10vw 90px;
+      position: relative;
+      border-bottom: 1px solid var(--crease);
+      background-image: repeating-linear-gradient(
+        transparent, transparent 31px, var(--crease) 31px, var(--crease) 32px
+      );
+      background-size: 100% 32px;
+      background-position: 0 60px;
+    }
+    .section:nth-child(even) { background-color: var(--aged); }
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: calc(10vw - 26px);
+      width: 1px;
+      background: rgba(155,28,10,0.28);
+    }
+
+    .section-tag {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .section-divider {
+      width: 44px; height: 2px;
+      background: var(--gold);
+      margin: 14px 0 26px;
+    }
+
+    /* ── NOTE CARD ── */
+    .note-card {
+      background: #faf6ec;
+      border: 1px solid var(--crease);
+      border-left: 4px solid var(--red);
+      padding: 26px 30px;
+      margin-bottom: 28px;
+      box-shadow: 2px 3px 10px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s;
+    }
+    .note-card:hover { box-shadow: 4px 6px 18px rgba(0,0,0,0.11); }
+    .note-card.gold   { border-left-color: var(--gold); }
+    .note-card.green  { border-left-color: #2a4a1e; }
+    .note-card.blue   { border-left-color: #1a3a5a; }
+    .note-card.purple { border-left-color: #4a1a5a; }
+
+    .card-source {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .card-cite {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--fade);
+      margin-bottom: 14px;
+      display: block;
+      word-break: break-all;
+    }
+
+    /* raw typewriter note body */
+    .typewriter {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.8rem;
+      line-height: 1.95;
+      color: #2a1a0a;
+      white-space: pre-wrap;
+      background: rgba(200,184,152,0.15);
+      border: 1px solid var(--crease);
+      padding: 18px 22px;
+      margin-top: 14px;
+    }
+
+    /* connection callout */
+    .connection {
+      margin-top: 18px;
+      padding: 14px 18px;
+      background: rgba(155,28,10,0.05);
+      border-left: 3px solid var(--red);
+    }
+    .connection-label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .connection p {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: #5a2010;
+    }
+
+    /* pull quote */
+    .pull-quote {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      color: var(--ink);
+      border-top: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      padding: 18px 0;
+      margin: 28px 0;
+      line-height: 1.5;
+    }
+    .pull-attr {
+      font-size: 0.72rem;
+      font-style: normal;
+      font-family: 'Special Elite', monospace;
+      letter-spacing: 0.1em;
+      color: var(--faint);
+    }
+
+    /* ── WORKS CITED ── */
+    .works-cited {
+      background: var(--ink);
+      padding: 72px 10vw 80px;
+    }
+    .wc-title {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--paper);
+      margin-bottom: 6px;
+    }
+    .wc-divider {
+      width: 44px; height: 2px;
+      background: var(--gold);
+      margin: 14px 0 32px;
+    }
+    .wc-category {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 28px 0 10px;
+      display: block;
+    }
+    .wc-entry {
+      font-family: 'Crimson Text', serif;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #c8b898;
+      padding-left: 2em;
+      text-indent: -2em;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+    .wc-entry a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .wc-entry a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0f0802;
+      padding: 36px 10vw;
+      text-align: center;
+    }
+    footer p {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--faint);
+      line-height: 2;
+    }
+    footer strong { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 0.3; }
+      50%      { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--ink); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+  </style>
+<script src="/_sdk/resizing_sdk.js"></script></head>
+<body data-html-import-id="html-import-0" data-template-id="__page-root" style="background: rgb(26, 15, 5);">
+
+<!-- ═══════════ COVER ═══════════ -->
+<section class="cover canva-section" id="top" data-html-import-id="html-import-1" data-template-id="section-0" style="background: rgb(26, 15, 5);">
+  <div class="cover-char canva-container" data-html-import-id="html-import-2" data-template-id="div-1" style="color: rgba(176, 125, 42, 0.07); font-family: serif; font-size: 255px;">等</div>
+  <div class="cover-eyebrow canva-container" data-html-import-id="html-import-3" data-template-id="div-2" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 12px;">World Literature (H) · '26 English Final · Research Notebook</div>
+  <h1 class="cover-title canva-text" data-html-import-id="html-import-4" data-template-id="h1-3" style="color: rgb(242, 234, 216); font-family: &quot;IM Fell English&quot;; font-size: 70px;"><canva-inline-text data-template-id="canva-inline-text-4" class="canva-text" style="color: rgb(242, 234, 216); font-family: &quot;IM Fell English&quot;; font-size: 70px;">Power Structures</canva-inline-text><br data-html-import-id="html-import-5"><canva-inline-text data-template-id="canva-inline-text-5" class="canva-text" style="color: rgb(242, 234, 216); font-family: &quot;IM Fell English&quot;; font-size: 70px;">in 1960s China:</canva-inline-text><br data-html-import-id="html-import-6">
+    <em data-html-import-id="html-import-7" data-template-id="em-6" class="canva-text" style="color: rgb(176, 125, 42); font-style: italic;">Waiting</em><canva-inline-text data-template-id="canva-inline-text-7" class="canva-text" style="color: rgb(242, 234, 216); font-family: &quot;IM Fell English&quot;; font-size: 70px;"> by Ha Jin</canva-inline-text></h1>
+  <p class="cover-sub canva-text" data-html-import-id="html-import-8" data-template-id="p-8" style="color: rgb(160, 128, 96); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 19px;">How the Cultural Revolution colonized the most intimate parts of human life — and what one quiet novel does that history books cannot.</p>
+  <div class="cover-meta" data-html-import-id="html-import-9">
+    <div data-html-import-id="html-import-10"><span class="meta-key canva-text" data-html-import-id="html-import-11" data-template-id="span-9" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">STUDENT</span><span class="meta-val canva-text" data-html-import-id="html-import-12" data-template-id="span-10" style="color: rgb(242, 234, 216); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Joshua Lam</span></div>
+    <div data-html-import-id="html-import-13"><span class="meta-key canva-text" data-html-import-id="html-import-14" data-template-id="span-11" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">COURSE</span><span class="meta-val canva-text" data-html-import-id="html-import-15" data-template-id="span-12" style="color: rgb(242, 234, 216); font-family: &quot;Crimson Text&quot;; font-size: 15px;">World Literature (H)</span></div>
+    <div data-html-import-id="html-import-16"><span class="meta-key canva-text" data-html-import-id="html-import-17" data-template-id="span-13" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">NOVEL</span><span class="meta-val canva-text" data-html-import-id="html-import-18" data-template-id="span-14" style="color: rgb(242, 234, 216); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Waiting — Ha Jin, 1999</span></div>
+    <div data-html-import-id="html-import-19"><span class="meta-key canva-text" data-html-import-id="html-import-20" data-template-id="span-15" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">CRITICAL THEORY</span><span class="meta-val canva-text" data-html-import-id="html-import-21" data-template-id="span-16" style="color: rgb(242, 234, 216); font-family: &quot;Crimson Text&quot;; font-size: 15px;">New Historicism</span></div>
+  </div>
+  <a class="scroll-cue canva-link" href="#history1" data-html-import-id="html-import-22" data-template-id="a-17" style="color: rgb(0, 0, 238);">
+    <span data-html-import-id="html-import-23" data-template-id="span-18" class="canva-text" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 9px;">BEGIN</span>
+    <div class="scroll-arrow" data-html-import-id="html-import-24"></div>
+  </a>
+</section>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="sticky-nav canva-menu" data-html-import-id="html-import-25" data-template-id="nav-19" style="background: rgba(26, 15, 5, 0.97);">
+  <div class="nav-logo canva-container" data-html-import-id="html-import-26" data-template-id="div-20" style="color: rgb(176, 125, 42); font-family: &quot;Special Elite&quot;; font-size: 10px;">Notebook</div>
+  <a class="nav-link canva-link" href="#history1" data-html-import-id="html-import-27" data-template-id="a-21" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">① HISTORY I</a>
+  <a class="nav-link canva-link" href="#history2" data-html-import-id="html-import-28" data-template-id="a-22" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">② HISTORY II</a>
+  <a class="nav-link canva-link" href="#author" data-html-import-id="html-import-29" data-template-id="a-23" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">③ AUTHOR</a>
+  <a class="nav-link canva-link" href="#commentary" data-html-import-id="html-import-30" data-template-id="a-24" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">④ COMMENTARY</a>
+  <a class="nav-link canva-link" href="#documentary" data-html-import-id="html-import-31" data-template-id="a-25" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">⑤ DOCUMENTARY</a>
+  <a class="nav-link canva-link" href="#film" data-html-import-id="html-import-32" data-template-id="a-26" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">⑥ FILM</a>
+  <a class="nav-link canva-link" href="#works-cited" data-html-import-id="html-import-33" data-template-id="a-27" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">WORKS CITED</a>
+</nav>
+
+<!-- ═══════════ ① HISTORY — CONSTITUTING AMERICA ═══════════ -->
+<section class="section canva-section" id="history1" data-html-import-id="html-import-34" data-template-id="section-28" style="background: rgb(242, 234, 216);">
+  <div class="reveal" data-html-import-id="html-import-35">
+    <span class="section-tag canva-text" data-html-import-id="html-import-36" data-template-id="span-29" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">HISTORY &amp; CONTEXT · SOURCE 1</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-37" data-template-id="h2-30" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">Enemies of Freedom — Constituting America</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-38" data-template-id="div-31" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card gold canva-container" data-html-import-id="html-import-39" data-template-id="div-32" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-40" data-template-id="span-33" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">BURKETT, CHRISTOPHER C. — CONSTITUTING AMERICA (2022)</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-41" data-template-id="span-34" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">constitutingamerica.org/90day-aer-enemies-of-freedom-mao-zedong-and-the-1966-cultural-revolution-in-china-guest-essayist-chris-burkett/</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-42" data-template-id="div-35" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">WHAT THE ARTICLE COVERS:
+— Mao launched the Cultural Revolution in 1966
+   to purge "bourgeois and capitalist elements"
+   that had allegedly infiltrated the CCP
+— In reality: an attempt to reclaim absolute power
+   and silence anyone who questioned him
+
+A GENERAL PURGE OF ALL FREEDOMS:
+→ Speech and expression
+→ Private property ownership
+→ Education and independent thought
+→ Religious practice
+
+WHO WAS TARGETED:
+— Intellectuals, professionals, educators
+— Anyone labeled "counter-revolutionary"
+— Doctors, teachers, artists faced harsh punishment
+   for supposed "bourgeois tendencies"
+
+THE REEDUCATION CAMPS:
+"Many people were sent to 'the countryside' to work
+ in 'reeducation camps' (concentration camps far
+ removed from the eyes of people in the larger cities,
+ at which hundreds of thousands – possibly millions –
+ of people were tortured or killed)."
+— Burkett, Constituting America
+
+THE REGIME CONTROLLED EVERYTHING:
+— Media and propaganda
+— Personal property, even home decorations
+— Marriage and family life
+— Divorce was heavily restricted — relationships had
+  to conform to revolutionary ideals
+
+DEATH TOLL:
+Hundreds of thousands to millions killed.
+Millions more imprisoned or forced into labor camps.
+
+ARTICLE'S BROADER POINT:
+The Cultural Revolution is presented as a case study
+in what happens when individual rights are completely
+removed — used to argue for the importance of
+constitutional protections of life, liberty, and property.</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-43" data-template-id="div-36" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-44" data-template-id="span-37" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">CONNECTION TO WAITING</span>
+        <p data-html-import-id="html-import-45" data-template-id="p-38" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">Lin is a doctor — exactly the kind of educated professional targeted during the Cultural Revolution. His inability to divorce Shuyu is not a small bureaucratic annoyance; it is the direct product of a system that imprisoned and killed millions for less. The "abyss of misfortune" the judge warns Lin about in the divorce court scene is not metaphorical. It is real. This source gives that courtroom moment its full historical weight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ② HISTORY — STANFORD SPICE ═══════════ -->
+<section class="section canva-section" id="history2" data-html-import-id="html-import-46" data-template-id="section-39" style="background: rgb(232, 223, 200);">
+  <div class="reveal" data-html-import-id="html-import-47">
+    <span class="section-tag canva-text" data-html-import-id="html-import-48" data-template-id="span-40" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">HISTORY &amp; CONTEXT · SOURCE 2</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-49" data-template-id="h2-41" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">Introduction to the Cultural Revolution — Stanford SPICE</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-50" data-template-id="div-42" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card gold canva-container" data-html-import-id="html-import-51" data-template-id="div-43" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-52" data-template-id="span-44" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">LAMB, STEFANIE — STANFORD PROGRAM ON INTERNATIONAL AND CROSS-CULTURAL EDUCATION (DEC. 2005)</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-53" data-template-id="span-45" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">spice.fsi.stanford.edu/docs/introduction_to_the_cultural_revolution</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-54" data-template-id="div-46" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">TWO PRIMARY METHODS OF CCP CONTROL:
+
+1. Assigning CLASS LABELS to every person
+   → Determined your social standing, job,
+     access to food, housing, education
+   → A bad label (e.g. "rightist," "capitalist")
+     could destroy your entire family
+
+2. The DANWEI — the Work Unit System
+   → Boss of each work unit had nearly unlimited
+     control over workers' lives
+   → Controlled: housing, food rations, marriage
+     approvals, travel permits, job assignments
+   → "Freedom of expression was denied, people were
+     totally dependent on their bosses and obliged to
+     sacrifice and remain completely obedient to
+     the Chinese nation." — Lamb, Stanford SPICE
+
+WHO EXERCISED FREEDOM OVER THEIR OWN LIVES?
+"Only Party members exercised direct influence
+ over their own lives." — Lamb, Stanford SPICE
+
+THE CULTURAL REVOLUTION (1966–1976):
+— Roots go back to the early 1960s after the
+   catastrophic Great Leap Forward
+   (more than 20 million people died)
+— To the youth of the era, the CR represented
+   "a release from all their shackles, frustrations,
+   and feelings of powerlessness" — they were
+   weaponized by Mao against intellectuals</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-55" data-template-id="div-47" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-56" data-template-id="span-48" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">CONNECTION TO WAITING</span>
+        <p data-html-import-id="html-import-57" data-template-id="p-49" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">This is the single most important structural explanation for everything that happens in Waiting. Lin cannot just decide to divorce Shuyu — his work unit (the army hospital) controls that decision. His boss, the commissar, and the divorce court all represent this danwei system in action. Every summer Lin fails to get his divorce, it is not weakness — it is the danwei crushing personal freedom under institutional authority. Ha Jin doesn't explain this system, he simply shows it operating on one man's life over 18 years.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ③ AUTHOR — ASIA SOCIETY ═══════════ -->
+<section class="section canva-section" id="author" data-html-import-id="html-import-58" data-template-id="section-50" style="background: rgb(242, 234, 216);">
+  <div class="reveal" data-html-import-id="html-import-59">
+    <span class="section-tag canva-text" data-html-import-id="html-import-60" data-template-id="span-51" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">ABOUT THE AUTHOR · INTERVIEW</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-61" data-template-id="h2-52" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">An Interview with Ha Jin — Asia Society</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-62" data-template-id="div-53" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card canva-container" data-html-import-id="html-import-63" data-template-id="div-54" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-64" data-template-id="span-55" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">CASWELL, MICHELLE — ASIA SOCIETY (NOV. 17, 2000; PUBLISHED JULY 25, 2017)</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-65" data-template-id="span-56" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">asiasociety.org/interview-ha-jin</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-66" data-template-id="div-57" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">BACKGROUND ON HA JIN:
+— Born Jin Xuefei in northern China, 1956
+— Real name: Xuefei Jin
+— Lived through the Cultural Revolution as a child/teen
+— Served in the People's Liberation Army (PLA)
+— Studied English after Cultural Revolution ended
+— Came to the US in 1985 to attend Brandeis University
+— Decided to REMAIN after watching Tiananmen Square
+   massacre on television
+— Currently professor of English at Boston University
+— Has received: National Book Award, PEN/Faulkner Award,
+  PEN/Hemingway Prize
+
+HOW WAITING CAME TO BE:
+"My wife mentioned that guy waited 18 years to get a
+ divorce and now the second marriage is not working.
+ Later, I joked, 'This would be good for a novel.
+ I am going to write a novel based on this.'"
+— Ha Jin, Asia Society interview
+
+ON WRITING IN ENGLISH:
+— Jin did not plan to be a novelist writing in English
+— "I'd been writing, but not seriously. Even in the States
+   I wasn't that serious. I published a book of poems in
+   English, but I thought I'd return to China to teach
+   American literature — that would be my profession."
+— Started writing Waiting seriously in 1994 while
+   teaching at Emory University to keep his job
+
+HIS ADVICE TO YOUNG WRITERS:
+"Be patient. Patience is everything."
+— Ha Jin, Asia Society interview
+(Note: Rachel Khong in Literary Hub observes that
+"patient" is a word that pairs very well with Waiting)</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-67" data-template-id="div-58" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-68" data-template-id="span-59" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">CONNECTION TO WAITING</span>
+        <p data-html-import-id="html-import-69" data-template-id="p-60" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">The origin of Waiting is itself a story about patience — Jin heard a real anecdote and sat with it for years before writing it. More importantly, Jin served in an army hospital environment exactly like the one he depicts. His presence in that world was not research — it was experience. The specific textures of the novel (the forced marches, the commissar's power, the hospital hierarchy) come from Jin's own life inside the PLA system.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote canva-container" data-html-import-id="html-import-70" data-template-id="div-61" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-style: italic; font-size: 22px;"><canva-inline-text data-template-id="canva-inline-text-62" class="canva-text" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-style: italic; font-size: 22px;">"Be patient. Patience is everything."</canva-inline-text><br data-html-import-id="html-import-71"><span class="pull-attr canva-text" data-html-import-id="html-import-72" data-template-id="span-63" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 12px;">— Ha Jin, Asia Society interview (conducted by Michelle Caswell)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ④ COMMENTARY — LITERARY HUB ═══════════ -->
+<section class="section canva-section" id="commentary" data-html-import-id="html-import-73" data-template-id="section-64" style="background: rgb(232, 223, 200);">
+  <div class="reveal" data-html-import-id="html-import-74">
+    <span class="section-tag canva-text" data-html-import-id="html-import-75" data-template-id="span-65" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">COMMENTARY ON THE BOOK</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-76" data-template-id="h2-66" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">"Timeless and Urgent" — Literary Hub (2024)</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-77" data-template-id="div-67" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card blue canva-container" data-html-import-id="html-import-78" data-template-id="div-68" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-79" data-template-id="span-69" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">KHONG, RACHEL — LITERARY HUB (SEPT. 10, 2024)</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-80" data-template-id="span-70" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">lithub.com/timeless-and-urgent-on-ha-jins-waiting-and-the-mercy-of-the-arbitrary/</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-81" data-template-id="div-71" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">KHONG'S CENTRAL ARGUMENT:
+— Waiting is about "the arbitrary demands and strictures
+   placed on individuals" by the authoritarian state
+— "Under the thumb of the state, so much imagination
+   is wasted."
+— The novel asks: how could these people's lives have
+   been different if they hadn't been subjected to
+   authoritarian rule?
+
+MANNA'S BODY AS STATE PROPERTY:
+— Nurses had their virginity verified by physical exam
+   before joining the army hospital
+— "Every young woman recruited had to go through a
+   physical exam that eliminated those with a
+   broken hymen."
+— In 1964, binding feet is old-fashioned — but this
+   invasive inspection is treated as standard practice
+— Manna is NOT free — she is also controlled by
+   the authoritarian state, just as Lin is
+
+ON PATIENCE AND THE TITLE:
+— Khong connects Ha Jin's own advice ("Be patient.
+   Patience is everything.") to the novel's core theme
+— "Patient" is a word that pairs well with Waiting
+— "It's the rare novel that is timeless and urgent
+   all at once."
+
+ON THE VALUE OF FICTION:
+— Waiting is "an imaginative exercise" that gives shape
+   to historical experience that statistics cannot hold
+— Fiction makes visible what news articles and data
+   cannot: the texture of a life lived under
+   authoritarianism, year by year, wait by wait</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-82" data-template-id="div-72" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-83" data-template-id="span-73" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">CONNECTION TO THE ASSIGNMENT'S CENTRAL QUESTION</span>
+        <p data-html-import-id="html-import-84" data-template-id="p-74" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">This article directly answers "what is the value of world literature?" A statistic like "hundreds of thousands killed" tells you nothing about what it feels like to wait 18 years for a divorce while your life slowly drains away. Waiting does. Khong articulates this plainly: fiction gives shape to experience that data cannot. This is the argument your whole presentation builds toward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ⑤ DOCUMENTARY ═══════════ -->
+<section class="section canva-section" id="documentary" data-html-import-id="html-import-85" data-template-id="section-75" style="background: rgb(242, 234, 216);">
+  <div class="reveal" data-html-import-id="html-import-86">
+    <span class="section-tag canva-text" data-html-import-id="html-import-87" data-template-id="span-76" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">DOCUMENTARY</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-88" data-template-id="h2-77" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">The Revolution They Remember (2021)</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-89" data-template-id="div-78" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card green canva-container" data-html-import-id="html-import-90" data-template-id="div-79" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-91" data-template-id="span-80" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">HENRY LUCE FOUNDATION — DOCUMENTARY DESCRIPTION (APR. 23, 2021)</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-92" data-template-id="span-81" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">hluce.org/documentary-explores-chinese-citizens-experience-and-memory-cultural-revolution/</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-93" data-template-id="div-82" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">FULL TITLE: The Revolution They Remember
+SOURCE/FUNDER: Henry Luce Foundation
+BASED ON: Two oral history projects —
+  1. CR/10 Project — East Asian Library,
+     University of Pittsburgh (initiated 2015)
+     → Recorded video interviews with Chinese citizens
+       sharing memories of the Cultural Revolution
+  2. Down to the Countryside Movement Project
+     — Dartmouth College Library
+     → Interviews with former "Rusticated Youth" —
+       young people relocated to rural areas
+       during the Cultural Revolution
+
+WHAT IT CONTAINS:
+— Selections from both interview projects
+— Images contributed by interview participants
+— Archival footage and historical photographs
+— Commentary by scholars of modern Chinese history
+
+WHAT IT EXPLORES:
+— How the Cultural Revolution (1966–1976) was
+  experienced by ORDINARY PEOPLE
+— How it is REMEMBERED today — memory and trauma
+— The "Down to the Countryside Movement":
+  young people forcibly relocated from cities
+  to rural labor — cut off from family, education,
+  and personal choice
+— The long-term psychological and social effects
+  of living through that era
+
+KEY DETAIL — WHO WAS SENT DOWN:
+Rusticated Youth = young urban people (students,
+graduates) forced by state policy to leave their
+homes and work in rural areas indefinitely.
+Their personal lives — relationships, marriages,
+futures — were entirely determined by the state.</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-94" data-template-id="div-83" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-95" data-template-id="span-84" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">CONNECTION TO WAITING</span>
+        <p data-html-import-id="html-import-96" data-template-id="p-85" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">This documentary provides real faces and voices to go alongside Ha Jin's fictional account. Where Waiting gives you one man's quiet interior experience of the system, The Revolution They Remember shows the system itself through the testimonies of people who lived it. The Rusticated Youth in the documentary faced the exact same loss of personal autonomy that Lin Kong faces — not through violence, but through bureaucratic power over their everyday lives. Lin is not unusual. He is representative of millions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ⑥ FILM — TO LIVE ═══════════ -->
+<section class="section canva-section" id="film" data-html-import-id="html-import-97" data-template-id="section-86" style="background: rgb(232, 223, 200);">
+  <div class="reveal" data-html-import-id="html-import-98">
+    <span class="section-tag canva-text" data-html-import-id="html-import-99" data-template-id="span-87" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">ARTISTIC MEDIUM · FILM</span>
+    <h2 class="section-title canva-text" data-html-import-id="html-import-100" data-template-id="h2-88" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-size: 35px;">To Live (活着) — Roger Ebert Review (1994)</h2>
+    <div class="section-divider canva-container" data-html-import-id="html-import-101" data-template-id="div-89" style="background: rgb(176, 125, 42);"></div>
+
+    <div class="note-card purple canva-container" data-html-import-id="html-import-102" data-template-id="div-90" style="background: rgb(250, 246, 236);">
+      <span class="card-source canva-text" data-html-import-id="html-import-103" data-template-id="span-91" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">EBERT, ROGER — ROGEREBERT.COM (DEC. 23, 1994) · DIR. ZHANG YIMOU</span>
+      <span class="card-cite canva-text" data-html-import-id="html-import-104" data-template-id="span-92" style="color: rgb(122, 92, 56); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 14px;">rogerebert.com/reviews/to-live-1994</span>
+      <div class="typewriter canva-container" data-html-import-id="html-import-105" data-template-id="div-93" style="background: rgba(200, 184, 152, 0.15); color: rgb(42, 26, 10); font-family: &quot;Special Elite&quot;; font-size: 13px;">THE FILM:
+TITLE: To Live (活着 / Huózhe)
+DIRECTOR: Zhang Yimou
+YEAR: 1994
+STARS: Ge You, Gong Li
+BASED ON: Novel by Yu Hua (1993)
+
+EBERT'S SUMMARY:
+"'To Live' is a simple title, but it conceals a
+ universe. The film follows the life of one family
+ in China, from the heady days of gambling dens in
+ the 1940s to the austere hardship of the Cultural
+ Revolution in the 1960s."
+
+EBERT ON THE FILM'S CORE THEME:
+"Through all of their fierce struggles with fate,
+ all of the political twists and turns they endure,
+ their hope is basically one summed up by the heroine,
+ a wife who loses wealth and position and children,
+ and who says, 'All I ask is a quiet life together.'"
+— Ebert, RogerEbert.com
+
+WHAT HAPPENS:
+— Fugui loses the family fortune gambling
+— Swept into the Civil War as a traveling shadow puppeteer
+— Family survives the Great Leap Forward, barely
+— During the Cultural Revolution, Fugui burns his
+   shadow puppets — they become politically dangerous
+   (owning pre-Communist art = suspected capitalist)
+— Their son dies in a senseless accident caused by
+   political chaos (Red Guards commandeer the hospital)
+— Their daughter dies in childbirth for the same reason
+— By the end: survival itself is the only victory
+
+THE BAN:
+"The honesty of 'To Live' earned Zhang Yimou and
+ Gong Li not only a two-year ban on further filmmaking,
+ but a ban on even speaking about their film."
+— Ebert, RogerEbert.com
+→ China allowed the film to be made — then banned it
+  from Chinese audiences once it was finished
+
+EBERT'S FINAL WORD:
+"It is exciting to see these new films as they emerge
+ from China. They are history being written,
+ celebrated, and mourned."</div>
+
+      <div class="connection canva-container" data-html-import-id="html-import-106" data-template-id="div-94" style="background: rgba(155, 28, 10, 0.05);">
+        <span class="connection-label canva-text" data-html-import-id="html-import-107" data-template-id="span-95" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 9px;">COMPARISON TO WAITING</span>
+        <p data-html-import-id="html-import-108" data-template-id="p-96" class="canva-text" style="color: rgb(90, 32, 16); font-family: &quot;Crimson Text&quot;; font-style: italic; font-size: 16px;">Ebert notes that the wife's only wish is "a quiet life together" — which is exactly what Manna wants from Lin, and exactly what the state refuses them for 18 years. Both works follow ordinary people, not heroes or dissidents. Both refuse easy resolution. Zhang Yimou and Ha Jin make the same argument through different mediums: authoritarianism doesn't only kill people — it hollows out their lives slowly, through accumulated surrender and deferred choice. A history textbook tells you the Cultural Revolution lasted 10 years and killed millions. To Live shows a father watching his son die in a senseless accident caused by political chaos, and still having to thank the state. Waiting shows a man who waited so long for love that he forgot how to feel it. These are truths that data cannot hold.</p>
+      </div>
+    </div>
+
+    <div class="pull-quote canva-container" data-html-import-id="html-import-109" data-template-id="div-97" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-style: italic; font-size: 22px;"><canva-inline-text data-template-id="canva-inline-text-98" class="canva-text" style="color: rgb(26, 15, 5); font-family: &quot;IM Fell English&quot;; font-style: italic; font-size: 22px;">"They are history being written, celebrated, and mourned."</canva-inline-text><br data-html-import-id="html-import-110"><span class="pull-attr canva-text" data-html-import-id="html-import-111" data-template-id="span-99" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 12px;">— Roger Ebert on Zhang Yimou's films, RogerEbert.com (1994)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WORKS CITED ═══════════ -->
+<section class="works-cited canva-section" id="works-cited" data-html-import-id="html-import-112" data-template-id="section-100" style="background: rgb(26, 15, 5);">
+  <div class="reveal" data-html-import-id="html-import-113">
+    <h2 class="wc-title canva-text" data-html-import-id="html-import-114" data-template-id="h2-101" style="color: rgb(242, 234, 216); font-family: &quot;IM Fell English&quot;; font-size: 32px;">Works Cited</h2>
+    <div class="wc-divider canva-container" data-html-import-id="html-import-115" data-template-id="div-102" style="background: rgb(176, 125, 42);"></div>
+
+    <span class="wc-category canva-text" data-html-import-id="html-import-116" data-template-id="span-103" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">HISTORY / CONTEXT</span>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-117" data-template-id="p-104" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-105" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Burkett, Christopher. "Enemies of Freedom: Mao Zedong and the 1966 Cultural Revolution in China." </canva-inline-text><em data-html-import-id="html-import-118" data-template-id="em-106" class="canva-text" style="color: rgb(200, 184, 152);">Constituting America</em><canva-inline-text data-template-id="canva-inline-text-107" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, 11 Aug. 2022, </canva-inline-text><a href="https://constitutingamerica.org/90day-aer-enemies-of-freedom-mao-zedong-and-the-1966-cultural-revolution-in-china-guest-essayist-chris-burkett/" target="_blank" data-html-import-id="html-import-119" data-template-id="a-108" class="canva-link" style="color: rgb(176, 125, 42);">constitutingamerica.org/90day-aer-enemies-of-freedom...</a></p>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-120" data-template-id="p-109" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-110" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Lamb, Stefanie. "Introduction to the Cultural Revolution." </canva-inline-text><em data-html-import-id="html-import-121" data-template-id="em-111" class="canva-text" style="color: rgb(200, 184, 152);">Stanford Program on International and Cross-Cultural Education</em><canva-inline-text data-template-id="canva-inline-text-112" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, Stanford University, Dec. 2005, </canva-inline-text><a href="https://spice.fsi.stanford.edu/docs/introduction_to_the_cultural_revolution" target="_blank" data-html-import-id="html-import-122" data-template-id="a-113" class="canva-link" style="color: rgb(176, 125, 42);">spice.fsi.stanford.edu/docs/introduction_to_the_cultural_revolution</a></p>
+
+    <span class="wc-category canva-text" data-html-import-id="html-import-123" data-template-id="span-114" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">ABOUT THE AUTHOR / COMMENTARY</span>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-124" data-template-id="p-115" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-116" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Caswell, Michelle. "An Interview with Ha Jin." </canva-inline-text><em data-html-import-id="html-import-125" data-template-id="em-117" class="canva-text" style="color: rgb(200, 184, 152);">Asia Society</em><canva-inline-text data-template-id="canva-inline-text-118" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, 25 July 2017, </canva-inline-text><a href="https://asiasociety.org/interview-ha-jin" target="_blank" data-html-import-id="html-import-126" data-template-id="a-119" class="canva-link" style="color: rgb(176, 125, 42);">asiasociety.org/interview-ha-jin</a></p>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-127" data-template-id="p-120" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-121" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Khong, Rachel. "Timeless and Urgent: On Ha Jin's </canva-inline-text><em data-html-import-id="html-import-128" data-template-id="em-122" class="canva-text" style="color: rgb(200, 184, 152);">Waiting</em><canva-inline-text data-template-id="canva-inline-text-123" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"> and the Mercy of the Arbitrary." </canva-inline-text><em data-html-import-id="html-import-129" data-template-id="em-124" class="canva-text" style="color: rgb(200, 184, 152);">Literary Hub</em><canva-inline-text data-template-id="canva-inline-text-125" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, 10 Sept. 2024, </canva-inline-text><a href="https://lithub.com/timeless-and-urgent-on-ha-jins-waiting-and-the-mercy-of-the-arbitrary/" target="_blank" data-html-import-id="html-import-130" data-template-id="a-126" class="canva-link" style="color: rgb(176, 125, 42);">lithub.com/timeless-and-urgent-on-ha-jins-waiting-and-the-mercy-of-the-arbitrary/</a></p>
+
+    <span class="wc-category canva-text" data-html-import-id="html-import-131" data-template-id="span-127" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">DOCUMENTARY</span>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-132" data-template-id="p-128" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-129" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Henry Luce Foundation. "Documentary Explores Chinese Citizens' Experience and Memory of the Cultural Revolution." </canva-inline-text><em data-html-import-id="html-import-133" data-template-id="em-130" class="canva-text" style="color: rgb(200, 184, 152);">Henry Luce Foundation</em><canva-inline-text data-template-id="canva-inline-text-131" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, 23 Apr. 2021, </canva-inline-text><a href="https://hluce.org/documentary-explores-chinese-citizens-experience-and-memory-cultural-revolution/" target="_blank" data-html-import-id="html-import-134" data-template-id="a-132" class="canva-link" style="color: rgb(176, 125, 42);">hluce.org/documentary-explores-chinese-citizens-experience-and-memory-cultural-revolution/</a></p>
+
+    <span class="wc-category canva-text" data-html-import-id="html-import-135" data-template-id="span-133" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">ARTISTIC MEDIUM — FILM</span>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-136" data-template-id="p-134" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-135" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Ebert, Roger. "To Live Movie Review &amp; Film Summary (1994)." </canva-inline-text><em data-html-import-id="html-import-137" data-template-id="em-136" class="canva-text" style="color: rgb(200, 184, 152);">RogerEbert.com</em><canva-inline-text data-template-id="canva-inline-text-137" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, 23 Dec. 1994, </canva-inline-text><a href="https://www.rogerebert.com/reviews/to-live-1994" target="_blank" data-html-import-id="html-import-138" data-template-id="a-138" class="canva-link" style="color: rgb(176, 125, 42);">rogerebert.com/reviews/to-live-1994</a></p>
+
+    <span class="wc-category canva-text" data-html-import-id="html-import-139" data-template-id="span-139" style="color: rgb(155, 28, 10); font-family: &quot;Special Elite&quot;; font-size: 10px;">FROM THE ESSAY</span>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-140" data-template-id="p-140" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-141" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Jing, Tan. "An Exploration of Ha Jin's Cultural and Literal Capital Reflected in </canva-inline-text><em data-html-import-id="html-import-141" data-template-id="em-142" class="canva-text" style="color: rgb(200, 184, 152);">Waiting</em><canva-inline-text data-template-id="canva-inline-text-143" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">." </canva-inline-text><em data-html-import-id="html-import-142" data-template-id="em-144" class="canva-text" style="color: rgb(200, 184, 152);">Journal of Social Science Studies</em><canva-inline-text data-template-id="canva-inline-text-145" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">, vol. 10, no. 2, 11 Aug. 2023, p. 20. </canva-inline-text><a href="https://doi.org/10.5296/jsss.v10i2.21127" target="_blank" data-html-import-id="html-import-143" data-template-id="a-146" class="canva-link" style="color: rgb(176, 125, 42);">doi.org/10.5296/jsss.v10i2.21127</a></p>
+
+    <p class="wc-entry canva-text" data-html-import-id="html-import-144" data-template-id="p-147" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;"><canva-inline-text data-template-id="canva-inline-text-148" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">Jin, Ha. </canva-inline-text><em data-html-import-id="html-import-145" data-template-id="em-149" class="canva-text" style="color: rgb(200, 184, 152);">Waiting</em><canva-inline-text data-template-id="canva-inline-text-150" class="canva-text" style="color: rgb(200, 184, 152); font-family: &quot;Crimson Text&quot;; font-size: 15px;">. Vintage, 2001.</canva-inline-text></p>
+  </div>
+</section>
+
+<footer data-html-import-id="html-import-146" data-template-id="footer-151" class="canva-footer" style="background: rgb(15, 8, 2);">
+  <p data-html-import-id="html-import-147" data-template-id="p-152" class="canva-text" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">
+    <strong data-html-import-id="html-import-148" data-template-id="strong-153" class="canva-text" style="color: rgb(176, 125, 42);">RESEARCH NOTEBOOK</strong><canva-inline-text data-template-id="canva-inline-text-154" class="canva-text" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;"> · WAITING BY HA JIN · JOSHUA LAM</canva-inline-text><br data-html-import-id="html-import-149"><canva-inline-text data-template-id="canva-inline-text-155" class="canva-text" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">WORLD LITERATURE (H) · '26 ENGLISH FINAL PRESENTATION</canva-inline-text><br data-html-import-id="html-import-150"><canva-inline-text data-template-id="canva-inline-text-156" class="canva-text" style="color: rgb(160, 128, 96); font-family: &quot;Special Elite&quot;; font-size: 10px;">TOPIC: POWER STRUCTURES &amp; INDIVIDUAL FREEDOM IN 1960S CHINA</canva-inline-text></p>
+</footer>
+
+<script data-html-import-id="html-import-151">
+  // Fade-in on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  reveals.forEach(el => revealObs.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id], .works-cited[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const spyObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-38% 0px -55% 0px' });
+  sections.forEach(s => spyObs.observe(s));
+</script>
+
+
+<script src="/_sdk/editing_sdk.js"></script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ff920817e26f46e',t:'MTc3OTQyNDY2MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
