@@ -11,7 +11,7 @@ Burkett, Christopher. “Enemies of Freedom: Mao Zedong and the 1966 Cultural Re
 Lamb, Stefanie. “Introduction to the Cultural Revolution.” Stanford Program on International and Cross-Cultural Education, Stanford University, Dec. 2005, spice.fsi.stanford.edu/docs/introduction_to_the_cultural_revolution.
 
 About the Author/Commentary:
-Caswell, Michelle. “An Interview with Ha Jin.” Asia Society, 25 July 2017, asiasociety.org/interview-ha-jin.
+Caswell, Michelle. "An Interview with Ha Jin." Asia Society, conducted 17 Nov. 2000, published 25 July 2017, asiasociety.org/interview-ha-jin.
 
 Khong, Rachel. “Timeless and Urgent: On Ha Jin’s Waiting and the Mercy of the Arbitrary.” Literary Hub, 10 Sept. 2024, lithub.com/timeless-and-urgent-on-ha-jins-waiting-and-the-mercy-of-the-arbitrary/.
 
