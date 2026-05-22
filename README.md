@@ -14,3 +14,6 @@ https://hluce.org/documentary-explores-chinese-citizens-experience-and-memory-cu
 
 Artistic Medium (Movie):
 https://www.rogerebert.com/reviews/to-live-1994
+
+# Note
+A design template was used, where I exported from Canva as a .html file
